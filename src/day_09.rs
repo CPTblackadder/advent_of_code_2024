@@ -182,6 +182,6 @@ impl TaskCompleter for Task9 {
     }
 
     fn task_2_result(&self) -> Option<String> {
-        None
+        Some("6307279963620".to_string())
     }
 }
