@@ -1,0 +1,17 @@
+[package]
+name = "advent_of_code_2024"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+count-digits = "0.5.1"
+itertools = "0.13.0"
+rayon = "1.10.0"
+strum = "0.26.3"
+strum_macros = "0.26.4"
+
+[profile.release]
+debug = 1
+
