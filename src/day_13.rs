@@ -1,6 +1,5 @@
-use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
-
 use crate::{grid::Coord, TaskCompleter};
+use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 
 pub struct Task13;
 
@@ -14,30 +13,49 @@ struct ClawMachine {
     prize: Coord,
 }
 
-impl ClawMachine {
-    fn get_min_cost_for_prize_a_star(&self) -> Option<i64> {
-        pathfinding::directed::astar::astar(
-            &Coord::default(),
-            |x| {
-                vec![(*x + self.a_press, COST_A), (*x + self.b_press, COST_B)]
-                    .into_iter()
-                    .filter(|(c, _)| c <= &self.prize)
-            },
-            |_| 0,
-            |x| x == &self.prize,
-        )
-        .map(|(_, x)| x)
-    }
+fn determinant(a: i64, b: i64, c: i64, d: i64) -> i64 {
+    return a * d - b * c;
+}
 
+impl ClawMachine {
     fn get_min_cost_for_prize_custom(&self) -> Option<i64> {
         let mut v = Coord::default();
         let mut c = 0;
-
+        let mut possible_answers = vec![];
         while v <= self.prize {
-            
+            if let Some(i) = self.b_press.divides(self.prize - v) {
+                possible_answers.push(c + (COST_B * i));
+            }
+            v += self.a_press;
+            c += COST_A;
         }
+        possible_answers.into_iter().min()
+    }
 
-        None
+    /**
+     *  Couple of possibilities:
+     *  Either this is a system of linear equations with one solution
+     *  
+     *  Or both button presses are multiples of each other (this also doesn't happen in the input data)
+     *
+     *  Or a button press moves only X or Y (this doesn't happen in input data so we ignore that)
+     */
+    fn get_min_cost_for_prize(&self) -> Option<i64> {
+        let t = (self.prize.x() * self.a_press.y()) - (self.prize.y() * self.a_press.x());
+        let b = (self.b_press.x() * self.a_press.y()) - (self.b_press.y() * self.a_press.x());
+        if t % b == 0 {
+            let b_presses = t / b;
+            let t = self.prize.y() - (b_presses * self.b_press.y());
+            let b = self.a_press.y();
+            if t % b == 0 {
+                let a_presses = t / b;
+                Some((a_presses * COST_A) + (b_presses * COST_B))
+            } else {
+                None
+            }
+        } else {
+            None
+        }
     }
 }
 
@@ -78,19 +96,19 @@ impl TaskCompleter for Task13 {
         let machines = parse_input(include_str!("../input/day_13/input"));
         machines
             .par_iter()
-            .map(|x| x.get_min_cost_for_prize_a_star().unwrap_or_default())
+            .map(|x| x.get_min_cost_for_prize().unwrap_or_default())
             .sum::<i64>()
             .to_string()
     }
 
     fn do_task_2(&self) -> String {
-        let mut machines = parse_input(include_str!("../input/day_13/example"));
+        let mut machines = parse_input(include_str!("../input/day_13/input"));
         for m in machines.iter_mut() {
             m.prize = m.prize + Coord::new(10000000000000, 10000000000000);
         }
         machines
             .par_iter()
-            .map(|x| x.get_min_cost_for_prize_a_star().unwrap_or_default())
+            .map(|x| x.get_min_cost_for_prize().unwrap_or_default())
             .sum::<i64>()
             .to_string()
     }
@@ -100,6 +118,6 @@ impl TaskCompleter for Task13 {
     }
 
     fn task_2_result(&self) -> Option<String> {
-        None
+        Some("83197086729371".to_string())
     }
 }

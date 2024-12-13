@@ -1,7 +1,7 @@
 use itertools::Itertools;
 use std::{
     fmt::Display,
-    ops::{Add, Index, IndexMut, Sub},
+    ops::{Add, AddAssign, Index, IndexMut, Sub},
 };
 // You need to bring the trait into scope to use it!
 use strum_macros::EnumIter;
@@ -283,6 +283,21 @@ impl Coord {
     pub fn y(&self) -> i64 {
         self.1
     }
+
+    /// Number of times self goes into rhs
+    pub fn divides(&self, rhs: Self) -> Option<i64> {
+        if rhs.0 % self.0 == 0 && rhs.1 % self.1 == 0 {
+            let a = rhs.0 / self.0;
+            let b = rhs.1 / self.1;
+            if a == b {
+                Some(a)
+            } else {
+                None
+            }
+        } else {
+            None
+        }
+    }
 }
 
 impl Sub<Coord> for Coord {
@@ -298,6 +313,13 @@ impl Add<Coord> for Coord {
 
     fn add(self, rhs: Coord) -> Self::Output {
         Self(self.0 + rhs.0, self.1 + rhs.1)
+    }
+}
+
+impl AddAssign<Coord> for Coord {
+    fn add_assign(&mut self, rhs: Coord) {
+        self.0 += rhs.0;
+        self.1 += rhs.1;
     }
 }
 
