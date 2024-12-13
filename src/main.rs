@@ -1,11 +1,7 @@
 #![allow(dead_code)]
 
-use std::{
-    any::type_name,
-    iter::{once, zip},
-    time::{Duration, Instant},
-};
-
+use day_01::Task1;
+use day_02::Task2;
 use day_03::Task3;
 use day_04::Task4;
 use day_05::Task5;
@@ -28,8 +24,11 @@ use day_21::Task21;
 use day_22::Task22;
 use day_23::Task23;
 use day_24::Task24;
-
-use crate::{day_01::Task1, day_02::Task2};
+use std::{
+    any::type_name,
+    iter::{once, zip},
+    time::{Duration, Instant},
+};
 
 mod day_01;
 mod day_02;
@@ -55,8 +54,8 @@ mod day_21;
 mod day_22;
 mod day_23;
 mod day_24;
-mod grid;
 mod day_25;
+mod grid;
 
 pub trait TaskCompleter {
     fn get_name_auto(&self) -> String {

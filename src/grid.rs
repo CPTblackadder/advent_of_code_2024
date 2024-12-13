@@ -171,7 +171,7 @@ impl<T> Grid<T> {
     }
 }
 
-#[derive(PartialEq, Eq, Clone, Copy, Debug, Hash, PartialOrd, Ord)]
+#[derive(PartialEq, Eq, Clone, Copy, Debug, Hash, PartialOrd, Ord, Default)]
 pub struct Coord(i64, i64);
 
 impl Coord {
