@@ -18,7 +18,7 @@ fn determinant(a: i64, b: i64, c: i64, d: i64) -> i64 {
 }
 
 impl ClawMachine {
-    fn get_min_cost_for_prize_custom(&self) -> Option<i64> {
+    fn get_min_cost_for_prize_search(&self) -> Option<i64> {
         let mut v = Coord::default();
         let mut c = 0;
         let mut possible_answers = vec![];
@@ -33,12 +33,14 @@ impl ClawMachine {
     }
 
     /**
-     *  Couple of possibilities:
+     * Couple of possibilities:
      *  Either this is a system of linear equations with one solution
+     *  So solve the linear equations using maths and shit
+     *  First figure out the number of B presses, if that is a whole number then
+     *  calculate the number of A presses and if that is also a whole number then return the cost
      *  
-     *  Or both button presses are multiples of each other (this also doesn't happen in the input data)
-     *
      *  Or a button press moves only X or Y (this doesn't happen in input data so we ignore that)
+     *  Or both button presses are multiples of each other (this also doesn't happen in the input data)
      */
     fn get_min_cost_for_prize(&self) -> Option<i64> {
         let t = (self.prize.x() * self.a_press.y()) - (self.prize.y() * self.a_press.x());
