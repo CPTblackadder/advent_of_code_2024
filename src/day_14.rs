@@ -4,7 +4,7 @@ use itertools::Itertools;
 use strum::IntoEnumIterator;
 
 use crate::{
-    grid::{CompassDirection, Coord, Direction, Grid},
+    grid::{CompassDirection, Coord, Grid},
     TaskCompleter,
 };
 

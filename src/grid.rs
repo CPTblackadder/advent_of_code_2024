@@ -179,19 +179,13 @@ impl Coord {
         match dir {
             Direction::Up => Self(self.0, self.1 + 1),
             Direction::Down => Self(self.0, self.1 - 1),
-            Direction::Left => Self(self.0 + 1, self.1),
-            Direction::Right => Self(self.0 - 1, self.1),
+            Direction::Left => Self(self.0 - 1, self.1),
+            Direction::Right => Self(self.0 + 1, self.1),
         }
     }
 
     pub fn translate<T>(&self, dir: Direction, grid: &Grid<T>) -> Option<Self> {
-        let d = match dir {
-            Direction::Up => Self(self.0, self.1 + 1),
-            Direction::Down => Self(self.0, self.1 - 1),
-            Direction::Left => Self(self.0 - 1, self.1),
-            Direction::Right => Self(self.0 + 1, self.1),
-        };
-        grid.in_bounds(d)
+        grid.in_bounds(self.translate_no_bounds(dir))
     }
 
     pub fn translate_with_distance<T>(
@@ -200,7 +194,7 @@ impl Coord {
         distance: i64,
         grid: &Grid<T>,
     ) -> Option<Self> {
-        assert!(distance > 0);
+        // assert!(distance > 0);
         let d = match dir {
             Direction::Up => Self(self.0, self.1 + distance),
             Direction::Down => Self(self.0, self.1 - distance),
