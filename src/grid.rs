@@ -235,7 +235,7 @@ impl Coord {
         (c, i)
     }
 
-    pub(crate) fn new(arg1: i64, arg2: i64) -> Coord {
+    pub(crate) const fn new(arg1: i64, arg2: i64) -> Coord {
         Coord(arg1, arg2)
     }
 
@@ -263,6 +263,31 @@ impl Coord {
                 Coord::new(self.0 - 1, self.1),
             ]
         }
+    }
+
+    pub fn get_bounded_neighbours<T>(&self, grid: &Grid<T>, diagnols: bool) -> Vec<Coord> {
+        if diagnols {
+            vec![
+                Coord::new(self.0, self.1 + 1),
+                Coord::new(self.0, self.1 - 1),
+                Coord::new(self.0 + 1, self.1),
+                Coord::new(self.0 - 1, self.1),
+                Coord::new(self.0 + 1, self.1 + 1),
+                Coord::new(self.0 + 1, self.1 - 1),
+                Coord::new(self.0 - 1, self.1 + 1),
+                Coord::new(self.0 - 1, self.1 - 1),
+            ]
+        } else {
+            vec![
+                Coord::new(self.0, self.1 + 1),
+                Coord::new(self.0, self.1 - 1),
+                Coord::new(self.0 + 1, self.1),
+                Coord::new(self.0 - 1, self.1),
+            ]
+        }
+        .into_iter()
+        .filter(|x| grid.in_bounds(*x).is_some())
+        .collect_vec()
     }
 
     pub(crate) fn is_on_edge(&self, grid: &Grid<char>) -> bool {

@@ -1,7 +1,6 @@
 use std::{
     collections::HashMap,
     fmt::{Display, Write},
-    hash::Hash,
 };
 
 use crate::{grid::*, TaskCompleter};

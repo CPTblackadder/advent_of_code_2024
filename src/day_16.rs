@@ -1,6 +1,6 @@
 use std::collections::HashSet;
 
-use pathfinding::prelude::{astar, astar_bag, astar_bag_collect};
+use pathfinding::prelude::{astar, astar_bag};
 
 use crate::{grid::*, TaskCompleter};
 
