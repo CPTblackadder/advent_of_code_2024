@@ -1,4 +1,3 @@
-use itertools::Itertools;
 use rayon::iter::{IntoParallelIterator, ParallelIterator};
 use strum::IntoEnumIterator;
 

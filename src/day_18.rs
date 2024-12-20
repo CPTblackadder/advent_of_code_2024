@@ -22,7 +22,7 @@ fn create_grid(input: &str, dimension: usize, bytes_to_use: usize) -> Grid<char>
 
 impl TaskCompleter for Task18 {
     fn do_task_1(&self) -> String {
-        let mut g = create_grid(include_str!("../input/day_18/input"), 71, 1024);
+        let g = create_grid(include_str!("../input/day_18/input"), 71, 1024);
         let start = Coord::new(0, 70);
         let finish = Coord::new(70, 0);
         let path = astar(

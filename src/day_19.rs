@@ -2,7 +2,7 @@ use crate::TaskCompleter;
 use cached::proc_macro::cached;
 use cached::SizedCache;
 use itertools::Itertools;
-use rayon::iter::{IntoParallelRefIterator, ParallelBridge, ParallelIterator};
+use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 
 pub struct Task19;
 
@@ -25,7 +25,8 @@ fn count_pattern_possibilities(line: &str, patterns: &Vec<&str>) -> i64 {
     if line.len() == 0 {
         1
     } else {
-        patterns.par_iter()
+        patterns
+            .par_iter()
             .map(|x| {
                 if line.starts_with(x) {
                     count_pattern_possibilities(&line[x.len()..], patterns)
