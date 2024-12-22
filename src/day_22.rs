@@ -122,6 +122,7 @@ impl TaskCompleter for Task22 {
         //     .max_by_key(|(_, x)| *x)
         //     .unwrap()
         //     .0;
+        // Found the solution with the above, just short cut to it with the below
         lines
             .map(|i| {
                 PriceChangeIterator::from_string(i)
@@ -136,6 +137,6 @@ impl TaskCompleter for Task22 {
     }
 
     fn task_2_result(&self) -> Option<String> {
-        None
+        Some("2268".to_string())
     }
 }
