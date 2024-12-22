@@ -18,7 +18,7 @@ fn can_make_pattern(line: &str, patterns: &Vec<&str>) -> bool {
 
 #[cached(
     ty = "SizedCache<String, i64>",
-    create = "{ SizedCache::with_size(65) }",
+    create = "{ SizedCache::with_size(200) }",
     convert = r#"{ format!("{}", line) }"#
 )]
 fn count_pattern_possibilities(line: &str, patterns: &Vec<&str>) -> i64 {

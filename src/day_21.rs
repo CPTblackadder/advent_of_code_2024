@@ -1,15 +1,11 @@
 use cached::SizedCache;
-use core::num;
-use std::{
-    collections::{HashMap, HashSet},
-    iter::zip,
-};
+use std::iter::zip;
 
 use crate::{grid::*, TaskCompleter};
 use cached::proc_macro::cached;
-use itertools::{Either, Itertools};
+use itertools::Itertools;
 use lazy_static::lazy_static;
-use pathfinding::prelude::{astar, astar_bag, astar_bag_collect};
+use pathfinding::prelude::astar_bag;
 
 pub struct Task21;
 
@@ -465,10 +461,12 @@ fn shortest_inputs_for_presses(input: &str, number_of_directions: i64) -> i64 {
         .into_iter()
         .map(|x| x.into_iter().join(""))
         .collect_vec()
-    .iter()
-    .map(|x| shortest_inputs_for_presses_directional_rec(&format!("A{x}"), number_of_directions))
-    .min()
-    .unwrap()
+        .iter()
+        .map(|x| {
+            shortest_inputs_for_presses_directional_rec(&format!("A{x}"), number_of_directions)
+        })
+        .min()
+        .unwrap()
 }
 
 impl PlayState {
